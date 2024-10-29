@@ -1,0 +1,43 @@
+;
+; MyDriver1.inf
+;
+
+[Version]
+Signature="$WINDOWS NT$"
+Class=System
+ClassGuid={4d36e97d-e325-11ce-bfc1-08002be10318}
+Provider=%ManufacturerName%
+DriverVer=1/1/2024,1.0.0.0
+CatalogFile=MyDriver1.cat
+PnpLockdown=1
+
+[DefaultInstall.NTamd64]  ; Use DefaultInstall for primitive drivers
+CopyFiles=MyDriver1_CopyFiles
+AddService=MyDriver1,,MyDriver1_ServiceInstall
+
+[DefaultInstall.NTamd64.Services] ; Services section for primitive driver
+AddService=MyDriver1,,MyDriver1_ServiceInstall
+
+[MyDriver1_ServiceInstall]
+DisplayName    = %MyDriver1.DeviceDesc%
+ServiceType    = 1 ; SERVICE_KERNEL_DRIVER
+StartType      = 3 ; SERVICE_DEMAND_START
+ErrorControl   = 1 ; SERVICE_ERROR_NORMAL
+ServiceBinary  = %12%\MyDriver1.sys
+
+[DestinationDirs]
+MyDriver1_CopyFiles = 12
+
+[MyDriver1_CopyFiles]
+MyDriver1.sys
+
+[SourceDisksNames]
+1 = %DiskName%,,,""
+
+[SourceDisksFiles]
+MyDriver1.sys = 1
+
+[Strings]
+ManufacturerName="Your Manufacturer Name"
+MyDriver1.DeviceDesc="MyDriver1 Hello World Driver"
+DiskName="MyDriver1 Source Disk"
